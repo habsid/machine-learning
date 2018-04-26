@@ -1,0 +1,49 @@
+#set working directory
+setwd("C:/Users/HABEEBA SIDDIQUI/Documents/machile learning/ML assgn/Home Work/Home Work 4")
+
+#(1)reading the data 
+data <- read.csv("Boston.csv", header = TRUE)
+
+#(2)suburbs with high median home values 
+summary(data$medv)
+hist(data$medv, xlab = "median_rate", ylab = "No_of_suburbs")
+median_value <- subset(data, medv > 22.53)
+
+#suburbs with low crime rates
+summary(data$crim)
+hist(data$crim, xlab = "Crime rate", ylab = "No of suburbs")
+crime <- subset(data, data$crim < 3.62)
+
+#suburbs with low pupil-teacher ratio
+summary(data$ptratio)
+hist(data$ptratio, xlab = "p-t ratio", ylab = "No of suburbs")
+ptratio_value <- subset(data, data$ptratio < 18.46)
+
+#(3) suburbs in this data set bound the Charles river
+nrow(subset(data, chas==1))
+
+#(4)The variables for which the corresponding regression coefficients are likely to be significant
+linear_reg <- lm(data$medv ~ ., data = data)
+summary(linear_reg)
+
+#(5)A smaller linear regression model that only uses predictors for which there is evidence of association with medv
+linear_final <- lm(data$medv ~ data$chas *  data$nox * data$rm  * data$ptratio * data$rad, data = data)
+summary(linear_final)
+
+#(7) scatter plots
+plot(x=data$crim, y= data$medv)
+plot(x=data$zn, y= data$medv)
+plot(x=data$indus, y= data$medv)
+plot(x=data$chas, y= data$medv)
+plot(x=data$nox, y= data$medv)
+plot(x=data$rm, y= data$medv)
+plot(x=data$age, y= data$medv)
+plot(x=data$dis, y= data$medv)
+plot(x=data$rad, y= data$medv)
+plot(x=data$tax, y= data$medv)
+plot(x=data$ptratio, y= data$medv)
+plot(x=data$black, y= data$medv)
+plot(x=data$lstat, y= data$medv)
+
+# (8,9)Smaller model using specific predictors
+linear_final <- lm(data$medv ~ data$crim * data$chas *  data$nox * data$rm  * data$ptratio * data$rad, data = data)
